@@ -152,24 +152,63 @@ p + p {
 }
 
 .news-date {
+  --light-x: 50%;
+  --light-y: 35%;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.34)),
-    linear-gradient(135deg, rgba(191, 229, 255, 0.42), rgba(248, 199, 223, 0.34));
-  border: 1px solid rgba(255, 255, 255, 0.72);
+    linear-gradient(135deg, rgba(191, 229, 255, 0.58), rgba(248, 199, 223, 0.48)),
+    #edf7ff;
+  border: 1px solid rgba(255, 255, 255, 0.78);
   border-radius: 999px;
   box-shadow:
-    0 6px 16px rgba(45, 127, 240, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    inset 0 -1px 0 rgba(37, 50, 79, 0.06);
+    0 7px 18px rgba(45, 127, 240, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(37, 50, 79, 0.08);
   color: #356d95;
   flex: 0 0 5.9rem;
   font-size: 0.78rem;
   font-weight: 650;
   line-height: 1;
+  overflow: hidden;
   padding: 0.28rem 0.58rem;
+  position: relative;
   text-align: center;
   -webkit-backdrop-filter: blur(12px) saturate(1.2);
   backdrop-filter: blur(12px) saturate(1.2);
+}
+
+.news-date::before {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.18) 44%, rgba(255, 255, 255, 0.5)),
+    radial-gradient(ellipse at 30% 12%, rgba(255, 255, 255, 0.92), transparent 42%);
+  bottom: 0;
+  content: "";
+  left: 0;
+  opacity: 0.82;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.news-date::after {
+  background:
+    radial-gradient(circle at var(--light-x) var(--light-y), rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.38) 16%, transparent 42%),
+    radial-gradient(circle at calc(var(--light-x) + 16%) calc(var(--light-y) + 12%), rgba(191, 229, 255, 0.46), transparent 48%),
+    radial-gradient(circle at calc(var(--light-x) - 18%) calc(var(--light-y) - 14%), rgba(248, 199, 223, 0.38), transparent 44%);
+  bottom: -18%;
+  content: "";
+  left: -18%;
+  opacity: 0.72;
+  pointer-events: none;
+  position: absolute;
+  right: -18%;
+  top: -18%;
+  transition: background 0.12s ease;
+}
+
+.news-date-text {
+  position: relative;
+  z-index: 1;
 }
 
 .news-content {

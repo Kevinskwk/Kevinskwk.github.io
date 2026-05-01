@@ -45,17 +45,36 @@ function loadNews() {
 function createNewsItem(item) {
   var div = document.createElement('div');
   var date = document.createElement('span');
+  var dateText = document.createElement('span');
   var content = document.createElement('span');
 
   div.className = 'news-item';
   date.className = 'news-date';
-  date.textContent = item.date;
+  date.addEventListener('mousemove', updateBadgeLight);
+  date.addEventListener('mouseleave', resetBadgeLight);
+  dateText.className = 'news-date-text';
+  dateText.textContent = item.date;
   content.className = 'news-content';
   content.innerHTML = item.content;
 
+  date.appendChild(dateText);
   div.appendChild(date);
   div.appendChild(content);
   return div;
+}
+
+function updateBadgeLight(event) {
+  var rect = event.currentTarget.getBoundingClientRect();
+  var x = ((event.clientX - rect.left) / rect.width) * 100;
+  var y = ((event.clientY - rect.top) / rect.height) * 100;
+
+  event.currentTarget.style.setProperty('--light-x', x + '%');
+  event.currentTarget.style.setProperty('--light-y', y + '%');
+}
+
+function resetBadgeLight(event) {
+  event.currentTarget.style.setProperty('--light-x', '50%');
+  event.currentTarget.style.setProperty('--light-y', '35%');
 }
 
 function loadPublications() {
