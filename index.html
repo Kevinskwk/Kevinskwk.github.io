@@ -10,6 +10,24 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      var storedMode = 'auto';
+      var hour = new Date().getHours();
+      var timeTheme = hour >= 18 || hour < 6 ? 'dark' : 'light';
+      var systemTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : timeTheme;
+      var resolvedTheme;
+
+      try {
+        storedMode = localStorage.getItem('theme-mode') || storedMode;
+      } catch (error) {}
+
+      resolvedTheme = storedMode === 'auto' ? systemTheme : storedMode;
+
+      document.documentElement.setAttribute('data-theme', resolvedTheme);
+      document.documentElement.setAttribute('data-theme-mode', storedMode);
+    }());
+  </script>
   <link rel="stylesheet" href="stylesheet.css">
   <script src="js/news-data.js"></script>
   <script src="js/publications-data.js"></script>
@@ -17,10 +35,16 @@
 </head>
 
 <body>
+  <button class="theme-switch" id="theme-switch" type="button" aria-label="Change color theme">
+    <span class="theme-switch-track" aria-hidden="true">
+      <span class="theme-switch-thumb"></span>
+    </span>
+    <span class="theme-switch-label">Auto</span>
+  </button>
   <main class="container">
     <header class="header">
       <section class="profile-info" aria-label="Profile">
-        <h1 class="name">Kevin Ma Yuchen</h1>
+        <h1 class="name">Kevin Yuchen Ma</h1>
         <p>
           I am a Computer Science PhD candidate at the School of Computing,
           <strong>National University of Singapore</strong>, and an A*STAR AGS scholar. I am co-supervised by

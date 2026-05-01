@@ -1,8 +1,78 @@
 document.addEventListener('DOMContentLoaded', function () {
+  setupThemeToggle();
   loadNews();
   loadPublications();
   setupBackToTop();
 });
+
+function setupThemeToggle() {
+  var button = document.getElementById('theme-switch');
+  var label = button ? button.querySelector('.theme-switch-label') : null;
+  var modes = ['auto', 'light', 'dark'];
+  var mediaQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  var mode = getStoredThemeMode() || document.documentElement.getAttribute('data-theme-mode') || 'auto';
+
+  function getStoredThemeMode() {
+    try {
+      return localStorage.getItem('theme-mode');
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function setStoredThemeMode(nextMode) {
+    try {
+      localStorage.setItem('theme-mode', nextMode);
+    } catch (error) {}
+  }
+
+  function getTimeTheme() {
+    var hour = new Date().getHours();
+    return hour >= 18 || hour < 6 ? 'dark' : 'light';
+  }
+
+  function resolveTheme(nextMode) {
+    if (nextMode !== 'auto') return nextMode;
+    if (mediaQuery && mediaQuery.matches) return 'dark';
+    return getTimeTheme();
+  }
+
+  function applyTheme(nextMode) {
+    var resolvedTheme = resolveTheme(nextMode);
+
+    document.documentElement.setAttribute('data-theme', resolvedTheme);
+    document.documentElement.setAttribute('data-theme-mode', nextMode);
+    if (label) label.textContent = nextMode.charAt(0).toUpperCase() + nextMode.slice(1);
+    if (button) button.setAttribute('aria-label', 'Theme mode: ' + nextMode + '. Click to change theme.');
+  }
+
+  if (button) {
+    button.addEventListener('click', function () {
+      var index = modes.indexOf(mode);
+      mode = modes[(index + 1) % modes.length];
+      setStoredThemeMode(mode);
+      applyTheme(mode);
+    });
+  }
+
+  if (mediaQuery) {
+    var mediaChangeHandler = function () {
+      if (mode === 'auto') applyTheme(mode);
+    };
+
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', mediaChangeHandler);
+    } else if (mediaQuery.addListener) {
+      mediaQuery.addListener(mediaChangeHandler);
+    }
+  }
+
+  window.setInterval(function () {
+    if (mode === 'auto') applyTheme(mode);
+  }, 15 * 60 * 1000);
+
+  applyTheme(mode);
+}
 
 function loadNews() {
   var news = typeof newsData !== 'undefined' ? newsData : [];
