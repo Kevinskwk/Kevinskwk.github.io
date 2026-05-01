@@ -44,8 +44,17 @@ function loadNews() {
 
 function createNewsItem(item) {
   var div = document.createElement('div');
+  var date = document.createElement('span');
+  var content = document.createElement('span');
+
   div.className = 'news-item';
-  div.innerHTML = '[' + item.date + '] ' + item.content;
+  date.className = 'news-date';
+  date.textContent = item.date;
+  content.className = 'news-content';
+  content.innerHTML = item.content;
+
+  div.appendChild(date);
+  div.appendChild(content);
   return div;
 }
 
@@ -159,11 +168,43 @@ function appendPublicationContent(container, pub) {
   linksDiv.className = 'publication-links';
   (pub.links || []).forEach(function (link) {
     var anchor = document.createElement('a');
+    var badge = document.createElement('img');
+    var badgeSpec = getLinkBadge(link);
+
     anchor.href = link.url;
-    anchor.textContent = link.label;
+    anchor.className = 'publication-link';
+    anchor.setAttribute('aria-label', link.label);
+
+    badge.src = badgeSpec.src;
+    badge.alt = badgeSpec.alt;
+    badge.loading = 'lazy';
+    anchor.appendChild(badge);
     linksDiv.appendChild(anchor);
   });
   container.appendChild(linksDiv);
+}
+
+function getLinkBadge(link) {
+  var label = String(link.label || 'link').toLowerCase();
+  var url = String(link.url || '').toLowerCase();
+  var spec = { left: 'Link', right: 'Open', color: '6b7280', logo: 'linkerd' };
+
+  if (label.indexOf('project') !== -1) {
+    spec = { left: 'Project', right: 'Page', color: '8dbdec', logo: 'googlechrome' };
+  } else if (label.indexOf('code') !== -1 || url.indexOf('github.com') !== -1) {
+    spec = { left: 'Code', right: 'GitHub', color: '7f8794', logo: 'github' };
+  } else if (label.indexOf('data') !== -1 || url.indexOf('huggingface.co') !== -1) {
+    spec = { left: 'Data', right: 'HuggingFace', color: 'd8bd76', logo: 'huggingface' };
+  } else if (label.indexOf('pdf') !== -1 || label.indexOf('arxiv') !== -1 || url.indexOf('arxiv.org') !== -1) {
+    spec = { left: 'Paper', right: 'arXiv', color: 'd58a9f', logo: 'arxiv' };
+  } else if (label.indexOf('blog') !== -1) {
+    spec = { left: 'Blog', right: 'Post', color: 'cfa3d9', logo: 'readme' };
+  }
+
+  return {
+    src: 'https://img.shields.io/badge/' + encodeURIComponent(spec.left) + '-' + encodeURIComponent(spec.right) + '-' + spec.color + '?style=flat&logo=' + encodeURIComponent(spec.logo) + '&logoColor=white',
+    alt: spec.left + ' ' + spec.right
+  };
 }
 
 function appendEmptyState(container, message) {
