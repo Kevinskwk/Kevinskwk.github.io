@@ -36,7 +36,7 @@ const publicationsData = [
     ]
   },
   {
-    title: "Cross-Embodiment Dexterous Hand Articulation Generation via Morphology-Aware Learning",
+    title: "MachaGrasp: Morphology-Aware Cross-Embodiment Dexterous Hand Articulation Generation for Grasping",
     venue: "IEEE International Conference on Robotics and Automation (ICRA), 2026",
     badge: "ICRA",
     authors: [
@@ -65,6 +65,7 @@ const publicationsData = [
     ],
     image: "images/RAL-VLATouch.png",
     links: [
+      { label: "project page", url: "https://jxbi1010.github.io/vla-touch-gh-pages/" },
       { label: "pdf", url: "https://arxiv.org/abs/2507.17294" },
       { label: "code", url: "https://github.com/jxbi1010/VLA-Touch" }
     ]

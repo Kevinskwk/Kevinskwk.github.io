@@ -40,8 +40,9 @@
   --badge-tint-b: rgba(248, 199, 223, 0.28);
   --badge-shadow: 0 7px 18px rgba(45, 127, 240, 0.1);
   --badge-hover-shadow: 0 11px 24px rgba(45, 127, 240, 0.16), 0 4px 10px rgba(227, 90, 166, 0.12);
-  --top-button-bg: #2d7ff0;
-  --top-button-hover-bg: #e35aa6;
+  --top-button-bg: rgba(191, 229, 255, 0.9);
+  --top-button-hover-bg: rgba(248, 199, 223, 0.92);
+  --top-button-color: #315f84;
   --theme-switch-bg: rgba(245, 247, 250, 0.78);
   --theme-gradient: linear-gradient(90deg, #bfe5ff 0%, #f8c7df 100%);
 }
@@ -70,12 +71,12 @@
   --glass-sheen-focus: rgba(255, 255, 255, 0.24);
   --badge-sheen: rgba(255, 255, 255, 0.16);
   --badge-glow: rgba(255, 255, 255, 0.14);
-  --news-date-base: #17243a;
-  --news-date-color: #a8c7df;
-  --news-date-layer-a: rgba(77, 122, 164, 0.34);
-  --news-date-layer-b: rgba(148, 93, 126, 0.22);
+  --news-date-base: #101a2b;
+  --news-date-color: #f2f8ff;
+  --news-date-layer-a: rgba(59, 94, 130, 0.28);
+  --news-date-layer-b: rgba(104, 67, 91, 0.18);
   --news-date-shadow: 0 7px 18px rgba(0, 0, 0, 0.2);
-  --news-date-highlight: rgba(255, 255, 255, 0.36);
+  --news-date-highlight: rgba(255, 255, 255, 0.22);
   --badge-glass-a: rgba(255, 255, 255, 0.13);
   --badge-glass-b: rgba(255, 255, 255, 0.05);
   --badge-tint-a: rgba(95, 139, 181, 0.18);
@@ -83,7 +84,8 @@
   --badge-shadow: 0 7px 18px rgba(0, 0, 0, 0.18);
   --badge-hover-shadow: 0 10px 24px rgba(0, 0, 0, 0.24), 0 2px 8px rgba(112, 169, 216, 0.08);
   --top-button-bg: #263a57;
-  --top-button-hover-bg: #3d4e6a;
+  --top-button-hover-bg: #4a3c5b;
+  --top-button-color: #d8e8f6;
   --theme-switch-bg: rgba(17, 26, 43, 0.78);
   --theme-gradient: linear-gradient(90deg, #70a9d8 0%, #d18ab0 100%);
 }
@@ -553,11 +555,16 @@ p + p {
 }
 
 #backToTop {
-  background: var(--top-button-bg);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.08)),
+    var(--top-button-bg);
   border: 0;
   border-radius: 8px;
   bottom: 20px;
-  color: white;
+  box-shadow:
+    0 8px 20px rgba(45, 127, 240, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  color: var(--top-button-color);
   cursor: pointer;
   display: none;
   font-size: 1.1rem;
@@ -565,10 +572,17 @@ p + p {
   padding: 0.75rem 0.9rem;
   position: fixed;
   right: 24px;
+  transition: background-color 0.28s ease, box-shadow 0.28s ease, opacity 0.28s ease, transform 0.28s ease;
 }
 
 #backToTop:hover {
-  background: var(--top-button-hover-bg);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.1)),
+    var(--top-button-hover-bg);
+  box-shadow:
+    0 10px 24px rgba(227, 90, 166, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.52);
+  transform: translateY(-1px);
 }
 
 @keyframes fadeIn {
